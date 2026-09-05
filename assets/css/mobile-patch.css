@@ -1,0 +1,91 @@
+/* BuildEngineer Pro - mobile usability patch */
+@media (max-width: 760px) {
+  html, body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .main {
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0 !important;
+    box-sizing: border-box;
+  }
+
+  .content, .topbar, .page-head, .card, .panel {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+  }
+
+  .page-head {
+    gap: 10px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .page-head .actions,
+  .actions {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .actions .btn,
+  button.btn,
+  a.btn {
+    min-height: 44px;
+    flex: 1 1 140px;
+    box-sizing: border-box;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .grid-2, .grid-3, .grid-4,
+  .stats-grid, .dashboard-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .table-wrap {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 10px;
+  }
+
+  .table {
+    min-width: 680px;
+  }
+
+  .modal {
+    width: calc(100vw - 24px) !important;
+    max-width: calc(100vw - 24px) !important;
+    max-height: calc(100vh - 24px);
+    overflow-y: auto;
+    box-sizing: border-box;
+  }
+
+  input, select, textarea {
+    max-width: 100%;
+    min-height: 44px;
+    box-sizing: border-box;
+  }
+
+  textarea {
+    min-height: 110px;
+  }
+
+  .sidebar {
+    z-index: 100;
+  }
+}

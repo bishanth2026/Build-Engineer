@@ -1,0 +1,2 @@
+<!-- Add this after the existing app.js script -->
+<script src="assets/js/fixes.js"></script>
