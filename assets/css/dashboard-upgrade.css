@@ -1,0 +1,30 @@
+/* BuildEngineer Pro - colorful dashboard upgrade */
+.dashboard-hero{position:relative;min-height:250px;margin-bottom:22px;border-radius:22px;overflow:hidden;background:linear-gradient(135deg,#0f2f66 0%,#1769aa 48%,#0ea5e9 100%);box-shadow:0 18px 40px rgba(15,63,120,.22);color:#fff}
+.dashboard-hero:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(7,21,46,.9) 0%,rgba(7,21,46,.58) 46%,rgba(7,21,46,.08) 100%);pointer-events:none}
+.dashboard-hero-copy{position:relative;z-index:2;padding:30px 34px;max-width:62%}
+.dashboard-hero h1{margin:0 0 9px;font-size:clamp(26px,3vw,42px);line-height:1.08;font-weight:900;letter-spacing:-1px}
+.dashboard-hero p{margin:0 0 18px;color:#dbeafe;font-size:16px;line-height:1.5}
+.dashboard-hero .hero-badges{display:flex;flex-wrap:wrap;gap:8px}
+.dashboard-hero .hero-badge{padding:7px 11px;border:1px solid rgba(255,255,255,.24);border-radius:999px;background:rgba(255,255,255,.12);font-size:12px;font-weight:800;backdrop-filter:blur(6px)}
+.dashboard-hero-art{position:absolute;z-index:1;right:18px;bottom:0;width:42%;height:94%;display:flex;align-items:flex-end;justify-content:center;opacity:.96;pointer-events:none}
+.dashboard-hero-art .hero-building{position:relative;width:220px;height:170px;border:7px solid #dbeafe;border-bottom:0;border-radius:8px 8px 0 0;background:linear-gradient(90deg,rgba(255,255,255,.16) 0 32%,rgba(255,255,255,.06) 32% 64%,rgba(255,255,255,.16) 64%);box-shadow:0 0 0 1px rgba(255,255,255,.18)}
+.dashboard-hero-art .hero-building:before{content:"";position:absolute;inset:18px 15px 0;background:repeating-linear-gradient(90deg,transparent 0 30px,rgba(255,255,255,.28) 30px 37px),repeating-linear-gradient(0deg,transparent 0 30px,rgba(255,255,255,.28) 30px 37px)}
+.dashboard-hero-art .hero-crane{position:absolute;width:8px;height:185px;background:#fbbf24;right:38px;bottom:0;box-shadow:8px 0 0 rgba(251,191,36,.35)}
+.dashboard-hero-art .hero-crane:before{content:"";position:absolute;width:190px;height:8px;background:#fbbf24;right:-4px;top:12px;transform:rotate(-3deg);transform-origin:right center}
+.dashboard-hero-art .hero-crane:after{content:"";position:absolute;width:72px;height:5px;background:#fbbf24;right:30px;top:18px;transform:rotate(58deg);transform-origin:right center}
+.dashboard-actions{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}
+.dashboard-action{border:1px solid #dbe4ef!important;border-radius:15px!important;padding:15px!important;min-height:82px;text-align:left!important;font-weight:800!important;background:#fff!important;box-shadow:0 7px 20px rgba(15,23,42,.07)!important;transition:transform .2s ease,box-shadow .2s ease!important}
+.dashboard-action:hover{transform:translateY(-3px)!important;box-shadow:0 14px 28px rgba(15,23,42,.13)!important}
+.dashboard-action .action-icon{display:block;font-size:25px;margin-bottom:7px}
+.dashboard-action .action-label{display:block;color:#0f172a}
+.dashboard-action:nth-child(1){background:linear-gradient(135deg,#eff6ff,#dbeafe)!important;border-color:#bfdbfe!important}
+.dashboard-action:nth-child(2){background:linear-gradient(135deg,#ecfeff,#cffafe)!important;border-color:#a5f3fc!important}
+.dashboard-action:nth-child(3){background:linear-gradient(135deg,#fff7ed,#ffedd5)!important;border-color:#fed7aa!important}
+.dashboard-action:nth-child(4){background:linear-gradient(135deg,#f5f3ff,#ede9fe)!important;border-color:#ddd6fe!important}
+.dashboard-actions-title{margin:0 0 12px}
+.sidebar{scrollbar-width:thin;scrollbar-color:#93c5fd transparent}
+.sidebar::-webkit-scrollbar{width:7px}
+.sidebar::-webkit-scrollbar-track{background:transparent}
+.sidebar::-webkit-scrollbar-thumb{background:#93c5fd;border-radius:999px}
+@media(max-width:900px){.dashboard-actions{grid-template-columns:repeat(2,minmax(0,1fr))}.dashboard-hero-copy{max-width:75%}.dashboard-hero-art{width:55%;opacity:.7}}
+@media(max-width:600px){.dashboard-hero{min-height:300px}.dashboard-hero-copy{max-width:100%;padding:22px 20px}.dashboard-hero-art{width:100%;opacity:.2}.dashboard-hero-art .hero-building{width:190px;height:145px}.dashboard-actions{grid-template-columns:1fr}.dashboard-action{min-height:70px}}
