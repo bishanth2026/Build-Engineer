@@ -8,7 +8,7 @@ function n(v){return Number(v||0)}
 function mny(v){return typeof money==='function'?money(v):'₹'+n(v).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2})}
 function pid(){return currentProject||DB.projects[0]?.id||''}
 function pname(id){return typeof projectName==='function'?projectName(id):DB.projects.find(p=>p.id===id)?.name||'—'}
-function available(b){return Math.max(0,n(b.qty)-n(b.billedQty))}
+function available(b){return Math.max(0,n(b.completedQty)-n(b.billedQty))}
 function billTotal(b){return (b.items||[]).reduce((s,x)=>s+n(x.qty)*n(x.rate),0)}
 
 const originalTitle=pageTitle;
@@ -34,8 +34,8 @@ function openBillModal(){
 }
 
 function billItemRows(items){
- if(!items.length)return '<div class="notice">No unbilled BOQ quantity is available for this project.</div>';
- return items.map((b,i)=>`<div class="bill-item-row"><div class="bill-item-info"><strong>${esc(b.code||'')} — ${esc(b.desc)}</strong><span>BOQ: ${n(b.qty).toFixed(3)} ${esc(b.unit)} · Completed: ${n(b.completedQty).toFixed(3)} · Already billed: ${n(b.billedQty).toFixed(3)} · Available: ${available(b).toFixed(3)}</span></div><input class="bill-qty" data-boq-id="${b.id}" type="number" min="0" max="${available(b)}" step="any" value="0" aria-label="Bill quantity"><strong>${mny(b.rate)}/${esc(b.unit)}</strong></div>`).join('')
+ if(!items.length)return '<div class="notice">No completed and unbilled BOQ quantity is available for this project.</div>';
+ return items.map(b=>`<div class="bill-item-row"><div class="bill-item-info"><strong>${esc(b.code||'')} — ${esc(b.desc)}</strong><span>BOQ: ${n(b.qty).toFixed(3)} ${esc(b.unit)} · Completed: ${n(b.completedQty).toFixed(3)} · Already billed: ${n(b.billedQty).toFixed(3)} · Available to bill: ${available(b).toFixed(3)}</span></div><input class="bill-qty" data-boq-id="${b.id}" type="number" min="0" max="${available(b)}" step="any" value="0" aria-label="Bill quantity"><strong>${mny(b.rate)}/${esc(b.unit)}</strong></div>`).join('')
 }
 
 function refreshBillItems(projectId){
@@ -67,7 +67,7 @@ function saveRABill(e){
  const d=Object.fromEntries(new FormData(e).entries());
  const items=selectedBillItems();
  if(!items.length){toast('Enter at least one bill quantity');return}
- for(const x of items){const b=DB.boq.find(z=>z.id===x.boqId);if(!b||x.qty>available(b)+0.000001){toast('One or more quantities exceed the available BOQ quantity');return}}
+ for(const x of items){const b=DB.boq.find(z=>z.id===x.boqId);if(!b||x.qty>available(b)+0.000001){toast('One or more quantities exceed the available completed quantity');return}}
  const gross=billTotal({items});
  const gstPct=n(d.gstPct),retentionPct=n(d.retentionPct),advancePct=n(d.advancePct);
  const gst=gross*gstPct/100,retention=gross*retentionPct/100,advanceRecovery=gross*advancePct/100;
@@ -87,6 +87,7 @@ function printRABill(id){
  const b=DB.bills.find(x=>x.id===id);if(!b)return;
  const rows=(b.items||[]).map((x,i)=>`<tr><td>${i+1}</td><td>${esc(x.code)}</td><td>${esc(x.desc)}</td><td>${n(x.qty).toFixed(3)}</td><td>${esc(x.unit)}</td><td>${mny(x.rate)}</td><td>${mny(x.qty*x.rate)}</td></tr>`).join('');
  const w=window.open('','_blank');
+ if(!w){toast('Allow pop-ups to print the bill');return}
  w.document.write(`<html><head><title>${esc(b.number)}</title><style>body{font-family:Arial,sans-serif;padding:28px;color:#111}h1{margin:0 0 4px}p{margin:5px 0}table{width:100%;border-collapse:collapse;margin-top:20px}th,td{border:1px solid #bbb;padding:8px;text-align:left}th{background:#f1f5f9}.right{text-align:right}.summary{width:360px;margin-left:auto;margin-top:20px}.summary td{border:0;border-bottom:1px solid #ddd}.net td{font-size:18px;font-weight:bold}</style></head><body><h1>RUNNING ACCOUNT BILL</h1><p><b>Bill No:</b> ${esc(b.number)} &nbsp; <b>Date:</b> ${esc(b.date)}</p><p><b>Project:</b> ${esc(pname(b.projectId))} &nbsp; <b>Status:</b> ${esc(b.status)}</p><table><tr><th>#</th><th>Item</th><th>Description</th><th>Qty</th><th>Unit</th><th>Rate</th><th>Amount</th></tr>${rows}</table><table class="summary"><tr><td>Gross</td><td class="right">${mny(b.gross)}</td></tr><tr><td>GST (${b.gstPct}%)</td><td class="right">${mny(b.gst)}</td></tr><tr><td>Retention (${b.retentionPct}%)</td><td class="right">-${mny(b.retention)}</td></tr><tr><td>Advance recovery (${b.advancePct}%)</td><td class="right">-${mny(b.advanceRecovery)}</td></tr><tr class="net"><td>NET PAYABLE</td><td class="right">${mny(b.grandTotal)}</td></tr></table><p style="margin-top:50px">Prepared by: ____________________ &nbsp;&nbsp;&nbsp; Certified by: ____________________</p><script>window.onload=()=>window.print()</script></body></html>`);w.document.close();
 }
 
